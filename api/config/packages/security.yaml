@@ -23,6 +23,11 @@ security:
             fos_oauth: true
             stateless: true
             anonymous: false
+        ticket:
+            pattern: ^/createTicket
+            fos_oauth: false
+            stateless: false
+            anonymous: true
         main:
             pattern: ^/
             form_login:
@@ -31,5 +36,6 @@ security:
             anonymous: true
     access_control:
         # - { path: ^/api/tickets, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
+        - { path: ^/createTicket, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }
         - { path: ^/api, roles: [IS_AUTHENTICATED_FULLY] }
         - { path: ^/createClient, roles: [IS_AUTHENTICATED_ANONYMOUSLY] }

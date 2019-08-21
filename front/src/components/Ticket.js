@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { Button, FormGroup, FormControl, ControlLabel } from 'react-bootstrap';
 import './Ticket.css';
+import axios from 'axios';
 
 class Ticket extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
-            email: '',
+            name_owner: '',
+            mail_owner: '',
             query_type: '',
             subject: '',
             message: ''
@@ -19,8 +20,8 @@ class Ticket extends Component {
 
     validateForm() {
         return (
-            this.state.name.length > 0 &&
-            this.state.email.length > 0 &&
+            this.state.name_owner.length > 0 &&
+            this.state.mail_owner.length > 0 &&
             this.state.query_type.length > 0 &&
             this.state.subject.length > 0 &&
             this.state.message.length > 0
@@ -31,32 +32,47 @@ class Ticket extends Component {
         this.setState({
             [event.target.id]: event.target.value
         });
-        console.log(this.state);
+    }
+
+    createTicket() {
+        axios
+            .post('http://127.0.0.1:8000/createTicket', this.state)
+            .then(result => {
+                alert(
+                    `Your ticket ${
+                        this.state.subject
+                    } is created, we will handle it as soon as posible !`
+                );
+            })
+            .catch(error => {
+                alert('Ticket not created');
+            });
     }
 
     handleSubmit(event) {
         event.preventDefault();
+        this.createTicket();
     }
 
     render() {
         return (
             <div className='Ticket'>
                 <form onSubmit={this.handleSubmit}>
-                    <FormGroup controlId='name' bsSize='large'>
+                    <FormGroup controlId='name_owner' bsSize='large'>
                         <p>Name</p>
                         <FormControl
                             autoFocus
                             type='text'
-                            value={this.state.name}
+                            value={this.state.name_owner}
                             onChange={this.handleChange}
                         />
                     </FormGroup>
-                    <FormGroup controlId='email' bsSize='large'>
+                    <FormGroup controlId='mail_owner' bsSize='large'>
                         <p>Email</p>
                         <FormControl
                             autoFocus
                             type='email'
-                            value={this.state.email}
+                            value={this.state.mail_owner}
                             onChange={this.handleChange}
                         />
                     </FormGroup>
@@ -68,7 +84,9 @@ class Ticket extends Component {
                             value={this.state.query_type}
                             onChange={this.handleChange}
                         >
-                            <option value='General query'>General query</option>
+                            <option value='General query' checked>
+                                General query
+                            </option>
                             <option value='Account management'>
                                 Account management
                             </option>
@@ -103,6 +121,7 @@ class Ticket extends Component {
                     >
                         Send
                     </Button>
+                    <button onClick={this.createTicket}>test</button>
                 </form>
             </div>
         );

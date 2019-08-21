@@ -25,24 +25,4 @@ class TicketController extends FOSRestController
     $tickets = $repository->findall();
     return $this->handleView($this->view($tickets));
   }
-  /**
-   * Create Ticket.
-   * @Rest\Post("/ticket")
-   *
-   * @return Response
-   */
-  public function postTicketAction(Request $request)
-  {
-    $ticket = new Ticket();
-    $form = $this->createForm(ValidateTicketType::class, $ticket);
-    $data = json_decode($request->getContent(), true);
-    $form->submit($data);
-    if ($form->isSubmitted() && $form->isValid()) {
-      $em = $this->getDoctrine()->getManager();
-      $em->persist($ticket);
-      $em->flush();
-      return $this->handleView($this->view(['status' => 'ok'], Response::HTTP_CREATED));
-    }
-    return $this->handleView($this->view($ticket->getErrors()));
-  }
 }
