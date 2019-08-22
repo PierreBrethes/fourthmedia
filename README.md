@@ -12,3 +12,8 @@ execute :
 (or create any user you want but you need to connect with on react after)
 
 And i guess you can start to use the app !
+
+Things to do : 
+
+- IsLogged : request to API if token exist (instead of checking localstorage.access_token)
+- possibility to create real users and the super-admin can switch someone to admin (then add "role")
