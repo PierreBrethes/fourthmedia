@@ -13,7 +13,7 @@ execute :
 
 And i guess you can start to use the app !
 
-Things to do : 
+Things to do better : 
 
 - IsLogged : request to API if token exist (instead of checking localstorage.access_token)
 - possibility to create real users and the super-admin can switch someone to admin (then add "role")
