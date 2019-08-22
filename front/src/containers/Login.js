@@ -16,6 +16,7 @@ export default class Login extends Component {
     }
 
     async loginAPI() {
+        // create client_id and client_secret (can't error, only if API is down)
         const response = await axios.post(
             'http://127.0.0.1:8000/createClient',
             {
@@ -32,15 +33,26 @@ export default class Login extends Component {
             password: this.state.password
         };
 
-        const getToken = await axios.post(
-            'http://127.0.0.1:8000/oauth/v2/token',
-            bodyLogin
-        );
+        try {
+            // try to connect, error if bad id/password
+            const getToken = await axios.post(
+                'http://127.0.0.1:8000/oauth/v2/token',
+                bodyLogin
+            );
 
-        localStorage.setItem(
-            'access_token',
-            `Bearer ${getToken.data.access_token}`
-        );
+            localStorage.setItem(
+                'access_token',
+                `Bearer ${getToken.data.access_token}`
+            );
+
+            // wait async response, and redirect to /adminarea
+            if (getToken.data.access_token !== undefined) {
+                this.props.history.push('/adminarea');
+            }
+            this.setState({ connected: true });
+        } catch (error) {
+            alert("Can't connect !");
+        }
     }
 
     validateForm() {
@@ -61,6 +73,12 @@ export default class Login extends Component {
     render() {
         return (
             <div className='Login'>
+                <p>
+                    you can connect with :<code>root:root</code>. To create a
+                    new admin, execute :{' '}
+                    <code>php bin/console fos:user:create username</code> in the
+                    API folder (symfony)
+                </p>
                 <form onSubmit={this.handleSubmit}>
                     <FormGroup controlId='name' bsSize='large'>
                         <p>Name</p>

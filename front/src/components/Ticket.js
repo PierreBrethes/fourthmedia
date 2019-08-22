@@ -50,8 +50,8 @@ class Ticket extends Component {
     }
 
     handleSubmit(event) {
-        event.preventDefault();
         this.createTicket();
+        event.preventDefault();
     }
 
     render() {
@@ -84,9 +84,8 @@ class Ticket extends Component {
                             value={this.state.query_type}
                             onChange={this.handleChange}
                         >
-                            <option value='General query' checked>
-                                General query
-                            </option>
+                            <option>Select categorie</option>
+                            <option value='General query'>General query</option>
                             <option value='Account management'>
                                 Account management
                             </option>
@@ -121,7 +120,6 @@ class Ticket extends Component {
                     >
                         Send
                     </Button>
-                    <button onClick={this.createTicket}>test</button>
                 </form>
             </div>
         );

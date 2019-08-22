@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TicketRepository")
@@ -15,6 +16,12 @@ class Ticket
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+    * @Gedmo\Timestampable(on="create")
+    * @ORM\Column(type="datetime")
+    */
+    private $createdAt;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -44,6 +51,11 @@ class Ticket
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
     }
 
     public function getQueryType(): ?string
